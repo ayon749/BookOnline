@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿
+
+
+using BookOnline.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BookOnline.DataAccess.Data
 {
@@ -12,5 +13,12 @@ namespace BookOnline.DataAccess.Data
             : base(options)
         {
         }
+        public DbSet<Catagory> Catagoires { get; set; }
+        public DbSet<CoverType> Covers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
+        //public DbSet<BookBazar.Models.Cover> Covers { get; set; }
     }
 }
