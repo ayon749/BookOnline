@@ -59,7 +59,7 @@
 				<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
 			</div>
 
-			@*@if (User.IsInRole(SD.Role_Admin))
+			@if (User.IsInRole(SD.Role_Admin))
 			{
 				<div class="form-group">
 					<label asp-for="Input.Reole"></label>
@@ -69,7 +69,7 @@
 					<label asp-for="Input.CompanyId"></label>
 					@Html.DropDownListFor(m => m.Input.CompanyId, Model.Input.CompanyList, "Please Select a Company", new { @class = "form-control" })
 				</div>
-			}*@
+			}
 			<button type="submit" class="btn btn-primary">Register</button>
 		</form>
 	</div>

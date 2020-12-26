@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -84,13 +85,31 @@ namespace BookOnline.Areas.Identity.Pages.Account
 			public string Reole { get; set; }
 
             public int? CompanyId { get; set; }
-           
-         
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+            public IEnumerable<SelectListItem> RoleList { get; set; }
+
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            Input = new InputModel()
+            {
+                CompanyList = _iUnitOfWork.Company.GetAll().Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+
+                }),
+                RoleList = _roleManager.Roles.Where(i => i.Name != SD.Role_User_Indi).Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+
+                })
+
+            };
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -134,7 +153,18 @@ namespace BookOnline.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Indi));
                     }
-                    await _userManager.AddToRoleAsync(user, SD.Role_Admin);
+					if (user.Reole == null)
+					{
+                        await _userManager.AddToRoleAsync(user, SD.Role_User_Indi);
+					}
+					else
+					{
+						if (user.CompanyId > 0)
+						{
+                            await _userManager.AddToRoleAsync(user, SD.Role_User_Comp);
+						}
+                        await _userManager.AddToRoleAsync(user,user.Reole);
+                    }
                    
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -154,8 +184,15 @@ namespace BookOnline.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (user.Reole == null)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+						else
+						{
+                            return RedirectToAction("Index", "User", new { Area = "Admin" });
+						}
                     }
                 }
                 foreach (var error in result.Errors)
