@@ -7,10 +7,13 @@ using BookOnline.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using BookOnline.Utility;
 
 namespace BookOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
     public class User : Controller
     {
         private readonly ApplicationDbContext _db;

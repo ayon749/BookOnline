@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using BookOnline.DataAccess;
 using BookOnline.Models;
 using BookOnline.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
+using BookOnline.Utility;
 
 namespace BookOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles =SD.Role_Admin)]
     public class Catagory : Controller
     {
         private readonly IUnitOfWork _iUnitOfWork;

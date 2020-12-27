@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.IO;
 using BookOnline.DataAccess.Repository.IRepository;
 using BookOnline.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using BookOnline.Utility;
 
 namespace BookOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class Product : Controller
     {
         private readonly IUnitOfWork _iUnitOfWork;

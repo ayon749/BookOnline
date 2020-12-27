@@ -1,10 +1,13 @@
 ﻿using BookOnline.DataAccess.Repository.IRepository;
+using BookOnline.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace BookOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin + ","+ SD.Role_Employee)]
     public class Company : Controller
     {
         private readonly IUnitOfWork _iUnitOfWork;
