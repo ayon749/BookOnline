@@ -9,6 +9,10 @@ namespace BookOnline.DataAccess.Repository.IRepository
 
         IProductRepository product { get; }
         ICompanyRepository Company { get; }
+        IShoppingCartRepository shoppingCart { get; }
+
+        IOrderHeaderRepository orderHeader { get; }
+        IOrderDetailsRepository orderDetails { get; }
 
         IApplicationUserRepository ApplicationUser { get; }
         ISP_Call SP_Call { get; }

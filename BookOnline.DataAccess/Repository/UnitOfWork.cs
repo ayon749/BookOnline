@@ -17,6 +17,9 @@ namespace BookOnline.DataAccess.Repository
             SP_Call = new SP_Call(_db);
             Company = new CompanyRepository(_db);
             ApplicationUser = new ApplicationUserRepository(_db);
+            shoppingCart = new ShoppingCartRepository(_db);
+            orderHeader = new OrderHeaderRepository(_db);
+            orderDetails = new OrderDetailsRepository(_db);
         }
         public ICategoryRepository Catagory { get; private set; }
 
@@ -32,8 +35,19 @@ namespace BookOnline.DataAccess.Repository
         public ICompanyRepository Company { get; private set; }
 
         public IApplicationUserRepository ApplicationUser { get; private set; }
+        public IShoppingCartRepository shoppingCart { get; private set; }
 
-        public void Dispose()
+		//public IShoppingCartRepository shoppingCart => throw new System.NotImplementedException();
+
+		public IOrderHeaderRepository orderHeader { get; private set; }
+
+		//public IOrderHeaderRepository orderHeader => throw new System.NotImplementedException();
+
+		public IOrderDetailsRepository orderDetails { get; private set; }
+
+		//public IOrderDetailsRepository orderDetails => throw new System.NotImplementedException();
+
+		public void Dispose()
         {
             _db.Dispose();
         }

@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
 @using BookOnline.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -51,10 +53,27 @@
 
 									<a class="dropdown-item " asp-area="Admin" asp-controller="Company" asp-action="Index">Company </a>
 									<a class="dropdown-item " asp-area="Admin" asp-controller="User" asp-action="Index">User </a>
-									<a class="dropdown-item" href="#">Another action</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Something else here</a>
+
 								</div>
+							</li>
+						}
+						@if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart) != null)
+						{
+							<li style="color:white;">
+								<a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link">
+									@{
+										var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.ssShoppingCart);
+									}
+									<i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+								</a>
+							</li>
+						}
+						else
+						{
+							<li style="color:white;">
+								<a href="#" class="nav-link">
+									<i class="fas fa-shopping-cart"></i> &nbsp; (0)
+								</a>
 							</li>
 						}
 					</ul>

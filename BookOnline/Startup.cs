@@ -38,6 +38,7 @@ namespace BookOnline
             services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             
@@ -57,6 +58,13 @@ namespace BookOnline
             {
                 options.ClientId = "849606356020-2h8hv92iiepieqopldsbj5belp345cve.apps.googleusercontent.com";
                 options.ClientSecret = "iLBTsehCIDoDcpcSk9xTOq5L";
+            });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
             
 		}
@@ -79,10 +87,10 @@ namespace BookOnline
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
